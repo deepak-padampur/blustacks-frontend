@@ -37,6 +37,9 @@ export class MISC extends APISDK {
   static getTrendingFeed = () => {
     return this.get(`${this.url}/api/v1/videos`)
   }
+  static getTrendingFeedDetails = (id) => {
+    return this.get(`${this.url}/api/v1/videos/${id}`)
+  }
 
 }
 

@@ -8,7 +8,7 @@ function App() {
   const [content, setContent] = useState([])
   useEffect(() => {
     MISC.getTrendingFeed().then(res => {
-
+      console.log(res)
       setContent(res[0].items)
       setEmbeddedHTML(res[0].items[0].player.embedHtml)
 
@@ -22,9 +22,9 @@ function App() {
     <>
       <div className="videos">
         <section className="video-section">
-          {content && content.map(video => {
-            return (<VideoThumbnail video={video} />)
-          })}
+          {content ? content.map(video => {
+            return (<VideoThumbnail id={video._id} video={video} embeddedHTML={embeddedHTML} />)
+          }) : 'loading'}
 
         </section>
       </div>
