@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { MISC } from '../../APISDK'
 import { numFormatter } from '../../helper'
+import { moment } from 'moment'
 import './style.css'
 
 function VideoThumbnail({ video, id }) {
@@ -10,6 +11,7 @@ function VideoThumbnail({ video, id }) {
   const [title, setTitle] = useState('')
   const [channelTitle, setChannelTitle] = useState('')
   const [viewCount, setViewCount] = useState('')
+  const [publishedAt, setPublishedAt] = useState('')
   const history = useHistory()
 
   useEffect(() => {
@@ -18,21 +20,23 @@ function VideoThumbnail({ video, id }) {
       setTitle(video.snippet.title)
       setChannelTitle(video.snippet.channelTitle)
       setViewCount(video.statistics.viewCount)
+      let videoPublished = new Date(video.snippet.publishedAt);
+      let formattedDate = (videoPublished.getMonth() + 1) + '/' + videoPublished.getDate() + '/' + videoPublished.getFullYear();
+      setPublishedAt(formattedDate)
     }
 
   }, [video])
 
   return (
-    // <div dangerouslySetInnerHTML={{ __html: embeddedHTML }} />
 
 
     <article className="video-container" onClick={() => history.push(`/details/${id}`)}>
       <div className="thumbnail" data-duration="12:24">
-        <img className="thumbnail-image" src={thumbnailSrc} />
+        <img className="thumbnail-image" src={thumbnailSrc} alt="loading" />
       </div>
       <div className="video-bottom-section">
         <div>
-          <img className="channel-icon" src="http://unsplash.it/36/36?gravity=center" />
+          <img className="channel-icon" src="http://unsplash.it/36/36?gravity=center" alt="loading" />
         </div>
         <div className="video-details">
           <div className="video-title">{title}</div>
@@ -40,7 +44,7 @@ function VideoThumbnail({ video, id }) {
           <div className="video-metadata">
             <span>{viewCount && numFormatter(viewCount * 1)} views</span>
             •
-              <span>1 week ago</span>
+          <span>{publishedAt}</span>
           </div>
         </div>
       </div>
