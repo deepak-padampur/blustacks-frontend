@@ -8,10 +8,10 @@ function App() {
   const [content, setContent] = useState([])
   useEffect(() => {
     MISC.getTrendingFeed().then(res => {
-      console.log(res)
+
       setContent(res[0].items)
       setEmbeddedHTML(res[0].items[0].player.embedHtml)
-      console.log(typeof (embeddedHTML))
+
     }).catch(err => {
       console.log(err)
     })
