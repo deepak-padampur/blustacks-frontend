@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import { MISC } from './APISDK'
+import VideoThumbnail from './components/videoThumbnail.js'
+import './App.css'
 
 function App() {
+  const [embeddedHTML, setEmbeddedHTML] = useState('')
+  const [content, setContent] = useState([])
+  useEffect(() => {
+    MISC.getTrendingFeed().then(res => {
+      console.log(res)
+      setContent(res[0].items)
+      setEmbeddedHTML(res[0].items[0].player.embedHtml)
+      console.log(typeof (embeddedHTML))
+    }).catch(err => {
+      console.log(err)
+    })
+
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <div dangerouslySetInnerHTML={{ __html: embeddedHTML }} />
+    <>
+      <div className="videos">
+        <section className="video-section">
+          {content && content.map(video => {
+            return (<VideoThumbnail video={video} />)
+          })}
+
+        </section>
+      </div>
+    </>
+
+
   );
 }
 
