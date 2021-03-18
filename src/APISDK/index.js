@@ -1,4 +1,4 @@
-import { get } from './methods'
+
 
 export default class APISDK {
 
